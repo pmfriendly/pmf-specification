@@ -19,8 +19,198 @@ PMF was first presented at [Passwords 2014](http://passwords14.item.ntnu.no/)
 and has a website at [pmfriendly.org](http://pmfriendly.org). PMF stands for
 Password-Manager Friendly.
 
+## Glossary
+
+* "password form" - A `form` element which contains one or more `password`-type
+  `input` element where the user types a new or existing password.
+
 ## Semantic classes
 
+### Form inputs
+
+#### Username inputs
+
+An `input` element where the user would enter their username must have the
+class `pmf-username`.
+
+**Example:**
+
+	<p>
+		Username:
+		<input type="text" name="username" class="pmf-username" />
+    </p>
+
+A password form which relates to a specific account and username, such as a
+password-reset form, must contain a `hidden`-type `input` marked with the
+`pmf-username` class and with its `value` attribute set to the username of the
+account for the password is being changed or reset.
+
+**Note:** The `name` of the hidden input should not be set to avoid
+unnecessarily sending the username back to the server when the form is
+submitted.
+
+**Code example:**
+
+	<input type="hidden" class="pmf-username" value="jimbojones" />
+
+#### Password inputs
+
+An `input` element where the user would enter an existing password must have
+the class `pmf-password`.
+
+**Code example:**
+
+	<p>
+		Password:
+		<input type="password" name="password" class="pmf-password" />
+	</p>
+
+An `input` element where the user would enter a new password must have the
+class `pmf-new-password`. Note that `pmf-password` and `pmf-new-password` will
+typically appear together in change password forms.
+
+**Code example:**
+
+	<p>
+		New password:
+		<input type="password" name="new" class="pmf-new-password" />
+	</p>
+	<p>
+		Confirm new password:
+		<input type="password" name="confirm" class="pmf-new-password" />
+	</p>
+
+#### Stay-signed-in inputs
+
+A `checkbox`-type `input` element which the user would check to stay signed in
+for a longer amount of time should have the `pmf-stay-signed-in` class.
+
+**Code example:**
+
+	<p>
+		Stay signed in?
+		<input type="checkbox" name="persist" class="pmf-stay-signed-in" />
+	</p>
+
+### Forms
+
+#### Login forms
+
+A password form where the user would enter their username and password to login
+to their account must have the class `pmf-login`.
+
+**Code example:**
+
+	<form action="/login" method="POST" class="pmf-login">
+		<p>
+			Username:
+			<input type="text" name="username" class="pmf-username" />
+		</p>
+		<p>
+			Password:
+			<input type="password" name="password" class="pmf-password" />
+		</p>
+		<p>
+			<input type="submit" value="Login" />
+		</p>
+	</form>
+
+#### Registration forms
+
+A password form where the user would enter a username, a new password and other
+details required to register a new account must have the class `pmf-register`.
+
+**Code example:**
+
+	<form action="/register" method="POST" class="pmf-register">
+		<p>
+			Username:
+			<input type="text" name="username" class="pmf-username" />
+		</p>
+		<p>
+			Email address:
+			<input type="email" name="email" />
+		</p>
+		<p>
+			New password:
+			<input type="password" name="new" class="pmf-new-password" />
+		</p>
+		<p>
+			Confirm new password:
+			<input type="password" name="confirm" class="pmf-new-password" />
+		</p>
+		<p>
+			<input type="submit" value="Register" />
+		</p>
+	</form>
+
+#### Password-reset forms
+
+A password form where the user would enter a new password for an existing
+account after receiving a password-reset email must have the class
+`pmf-reset-password`.
+
+**Code example:**
+
+	<form action="/reset" method="POST" class="pmf-reset-password">
+		<input type="hidden" class="pmf-username" value="jimbojones" />
+		<p>
+			New password:
+			<input type="password" name="new" class="pmf-new-password" />
+		</p>
+		<p>
+			Confirm new password:
+			<input type="password" name="confirm" class="pmf-new-password" />
+		</p>
+		<p>
+			<input type="submit" value="Reset password" />
+		</p>
+	</form>
+
+#### Change-password forms
+
+A password form where the user would enter a new password for an existing
+account, for which they have the current password must have the class
+`pmf-change-password`.
+
+**Code example:**
+
+	<form action="/change" method="POST" class="pmf-change-password">
+		<input type="hidden" class="pmf-username" value="jimbojones" />
+		<p>
+			Current password:
+			<input type="password" name="current" class="pmf-password" />
+		</p>
+		<p>
+			New password:
+			<input type="password" name="new" class="pmf-new-password" />
+		</p>
+		<p>
+			Confirm new password:
+			<input type="password" name="confirm" class="pmf-new-password" />
+		</p>
+		<p>
+			<input type="submit" value="Change password" />
+		</p>
+	</form>
+
+### Errors
+
+All error messages related to the submission of a password form, within a HTML
+document, must have the `pmf-error` class.
+
+**Code example:**
+
+	<p class="pmf-error">
+		Incorrect username and/or password.
+	</p>
+
+**Code example:**
+
+	<p class="pmf-error">
+		Invalid password - your password must not contain your username.
+	</p>
+	
 ### Versioning
 
 The `body` element in a HTML document that conform with this specification has
@@ -28,111 +218,28 @@ the class `pmf-version-1`.
 
 **Code example:**
 
-	<body class="pmf-version-1">
-
-### Form types
-
-There are 4 PMF semantic classes for different types of password form:
-
-1. Mark login forms with the class name `pmf-login`.
-2. Mark registration forms with the class name `pmf-register`.
-3. Mark change passwords forms with the class name `pmf-change-password`.
-4. Mark password reset forms with the class name `pmf-reset-password`.
-
-**Example:**
-
-    <form action="/login" method="POST" class="pmf-login">
-
-### Input types
-
-#### Username inputs
-
-For login and registration forms, mark all inputs where the user would enter
-their username with the class name `pmf-username`.
-
-**Example:**
-
-    <form action="/register" method="POST" class="pmf-register">
-        ...
-		Username:
-		<input type="text" name="username" class="pmf-username" />
-		...
-    </form>
-
-For change password and password reset forms, add a new `hidden`-type input
-marked with the `pmf-username` class and with its `value` attribute set to the
-username of the account for the password is being changed or reset.
-
-**Example:**
-
-	<form action="/changepassword" method="POST" class="pmf-change-password">
-		<input type="hidden" class="pmf-username" value="jimbojones" />
-		...
-	</form>
-
-#### Password inputs
-
-Mark all inputs where the user would enter an existing password with the class
-name `pmf-password`.
-
-**Example:**
-
-	<form action="/login" method="POST" class="pmf-login">
-		...
-		Password:
-		<input type="password" name="password" class="pmf-password" />
-		...
-	</form>
-
-Mark all inputs where the user would enter a new password with the class name
-`pmf-new-password`. Note that `pmf-password` and `pmf-new-password` will
-typically appear together in change password forms.
-
-**Example:**
-
-	<form action="/changepassword" method="POST" class="pmf-change-password">
-		<input type="hidden" class="pmf-username" value="jimbojones" />
-		
-		Current password:
-		<input type="password" name="current" class="pmf-password" />
-		
-		New password:
-		<input type="password" name="new" class="pmf-new-password" />
-		
-		Confirm new password:
-		<input type="password" name="confirm" class="pmf-new-password" />
-	</form>
-
-#### Stay-signed-in inputs
-
-Mark all `checkbox`-type inputs which the user would check to stay signed in
-for a longer amount of time with the `pmf-stay-signed-in` class name.
-
-**Example:**
-
-	<form action="/login" method="POST" class="pmf-login">
-		...
-		Stay signed in?
-		<input type="checkbox" name="persist" class="pmf-stay-signed-in" />
-		...
-	</form>
-
-### Errors
-
-Mark all error messages related to the submission of a password form with the
-`pmf-error` class name.
-
-**Example:**
-
-	<p class="pmf-error">
-		Incorrect username and/or password.
-	</p>
-
-**Example:**
-
-	<p class="pmf-error">
-		Invalid password - your password must not contain your username.
-	</p>
+	<!DOCTYPE HTML>
+	<html>
+		<head>
+			<title>Login</title>
+		</head>
+		<body class="pmf-version-1">
+			<h1>Login</h1>
+			<form action="/login" method="POST" class="pmf-login">
+				<p>
+					Username:
+					<input type="text" name="username" class="pmf-username" />
+				</p>
+				<p>
+					Password:
+					<input type="password" name="password" class="pmf-password" />
+				</p>
+				<p>
+					<input type="submit" value="Login" />
+				</p>
+			</form>
+		</body>
+	</html>
 
 ## Password policies
 
