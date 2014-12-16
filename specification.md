@@ -1,22 +1,32 @@
-# Password-Manager Friendly (PMF) semantic markup
+# PMF semantic markup standard
 
-## Definitions
+## Introduction
 
-* "document" - A HTML document.
-* "form" - A HTML form object, a HTML `form` element and its contents.
-* "input"/"field" - A HTML `input` element within a form.
-* "password input" - An `input` element with its `type` attribute set to
-  `password`.
-* "password form" - A "form" which includes an "password input".
+PMF semantic markup is a set of HTML class names and hidden elements that make
+web pages easier for password managers to parse and interact with. PMF semantic
+class names designate the meaning and purpose of human-readable forms and other
+elements, while a small number of additional hidden elements supply useful
+information that is not normally be available to a password manager.
 
-## Semantic class annotations
+The PMF standard specifies a machine-readable format for password policies to
+allow password managers to generate strong, policy-compliant passwords for
+users.
 
-### Versions
+PMF markup only uses existing standards-compliant features of HTML. This makes
+it easy for both website authors and password manager developers to adopt.
 
-Mark the `body` element of a document that conform with this specification with
+PMF was first presented at [Passwords 2014](http://passwords14.item.ntnu.no/)
+and has a website at [pmfriendly.org](http://pmfriendly.org). PMF stands for
+Password-Manager Friendly.
+
+## Semantic classes
+
+### Versioning
+
+The `body` element in a HTML document that conform with this specification has
 the class `pmf-version-1`.
 
-**Example:**
+**Code example:**
 
 	<body class="pmf-version-1">
 
