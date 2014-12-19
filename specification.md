@@ -45,13 +45,13 @@ password-reset form, must contain a `hidden`-type `input` marked with the
 `pmf-username` class and with its `value` attribute set to the username of the
 account for the password is being changed or reset.
 
-**Note:** The `name` of the hidden input should not be set to avoid
-unnecessarily sending the username back to the server when the form is
-submitted.
-
 **Code example:**
 
 	<input type="hidden" class="pmf-username" value="jimbojones" />
+
+**Note:** The `name` of the hidden input should not be set to avoid
+unnecessarily sending the username back to the server when the form is
+submitted.
 
 #### Password inputs
 
@@ -66,8 +66,7 @@ the class `pmf-password`.
 	</p>
 
 An `input` element where the user would enter a new password must have the
-class `pmf-new-password`. Note that `pmf-password` and `pmf-new-password` will
-typically appear together in change password forms.
+class `pmf-new-password`.
 
 **Code example:**
 
@@ -79,6 +78,9 @@ typically appear together in change password forms.
 		Confirm new password:
 		<input type="password" name="confirm" class="pmf-new-password" />
 	</p>
+
+**Note:** If a form contains multiple inputs where the user would enter the
+  same new password, all of them must have the class `pmf-new-password`.
 
 #### Stay-signed-in inputs
 
@@ -115,6 +117,48 @@ to their account must have the class `pmf-login`.
 		</p>
 	</form>
 
+A `pmf-login` form must contain exactly one `pmf-username` input and zero or
+one `pmf-password` inputs. A `pmf-login` form may contain up to one
+`pmf-stay-signed-in` checkbox.
+
+Examples of login forms with no `pmf-password` input include:
+
+* Login forms which are part of a multi-page login process.
+
+**Code example:**
+
+	<form action="/login" method="POST" class="pmf-login">
+		<p>
+			Username:
+			<input type="text" name="username" class="pmf-username" />
+		</p>
+		<p>
+			<input type="submit" value="Next" />
+		</p>
+	</form>
+
+**Note:** Any `pmf-login` form on a subsequent page must still include exactly
+  one `hidden`-type input with the `pmf-username` class and its `value`
+  attribute set to the username (entered on a previous page).
+
+* Login forms which require a one-time code instead of a password.
+
+**Code example:**
+
+	<form action="/login" method="POST" class="pmf-login">
+		<p>
+			Username:
+			<input type="text" name="username" class="pmf-username" />
+		</p>
+		<p>
+			Security code:
+			<input type="password" name="code" />
+		</p>
+		<p>
+			<input type="submit" value="Login" />
+		</p>
+	</form>
+
 #### Registration forms
 
 A password form where the user would enter a username, a new password and other
@@ -143,6 +187,18 @@ details required to register a new account must have the class `pmf-register`.
 			<input type="submit" value="Register" />
 		</p>
 	</form>
+
+A `pmf-register` form must contain exactly one `pmf-username` input and one or
+more `pmf-new-password` inputs. A `pmf-register` form may contain up to one
+`pmf-stay-signed-in` checkbox and up to one `pmf-policy` (see below).
+
+**Note:** Unlike login forms, registration forms may not contain zero password
+  inputs. In the case of a multi-page registration process in which the inputs
+  where the user would enter their username and new password appear on
+  different pages, only the form where they would enter their new password
+  should have the `pmf-register` class and that form must contain exactly one
+  `hidden`-type input with the `pmf-username` class and its `value` attribute
+  set to the new username (entered on a previous page).
 
 #### Password-reset forms
 
