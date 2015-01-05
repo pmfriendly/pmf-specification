@@ -33,7 +33,7 @@ Password-Manager Friendly.
 An `input` element where the user would enter their username must have the
 class `pmf-username`.
 
-**Example:**
+**Code example:**
 
 	<p>
 		Username:
