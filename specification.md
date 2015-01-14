@@ -417,11 +417,8 @@ Semantic annotations to improve the effectiveness of password managers*,
 Pre-proceedings of Passwords 2014, Springer-Verlag,
 [http://pmfriendly.org/static/documents/2014-StaSpeJen-pmf.pdf][2]
 
-[1]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
-"The JSON Data Interchange Standard"
-[2]: http://pmfriendly.org/static/documents/2014-StaSpeJen-pmf.pdf
-"Password-manager friendly (PMF): Semantic annotations to improve the
-effectiveness of password managers"
+[1]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf "The JSON Data Interchange Standard"
+[2]: http://pmfriendly.org/static/documents/2014-StaSpeJen-pmf.pdf "Password-manager friendly (PMF): Semantic annotations to improve the effectiveness of password managers"
 
 [101]: http://passwords14.item.ntnu.no/ "Passwords 2014"
 [102]: http://pmfriendly.org "pmfriendly.org"
