@@ -11,4 +11,4 @@ information that is not normally be available to a password manager.
 
 See [pmfriendly.org][1] for more information about PMF.
 
-[1]: pmfriendly.org "The PMF website"
+[1]: http://pmfriendly.org "The PMF website"
