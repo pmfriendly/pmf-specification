@@ -15,9 +15,12 @@ users.
 PMF markup only uses existing standards-compliant features of HTML. This makes
 it easy for both website authors and password manager developers to adopt.
 
-PMF was first presented at [Passwords 2014](http://passwords14.item.ntnu.no/)
-and has a website at [pmfriendly.org](http://pmfriendly.org). PMF stands for
-Password-Manager Friendly.
+PMF was first presented at [Passwords 2014][101] and has a website at
+[pmfriendly.org][102]. PMF stands for Password-Manager Friendly.
+
+## Status of this document
+
+This document is a working draft and all aspects are subject to change.
 
 ## Glossary
 
@@ -125,39 +128,39 @@ Examples of login forms with no `pmf-password` input include:
 
 * Login forms which are part of a multi-page login process.
 
-**Code example:**
+	**Code example:**
 
-	<form action="/login" method="POST" class="pmf-login">
-		<p>
-			Username:
-			<input type="text" name="username" class="pmf-username" />
-		</p>
-		<p>
-			<input type="submit" value="Next" />
-		</p>
-	</form>
+		<form action="/login" method="POST" class="pmf-login">
+			<p>
+				Username:
+				<input type="text" name="username" class="pmf-username" />
+			</p>
+			<p>
+				<input type="submit" value="Next" />
+			</p>
+		</form>
 
-**Note:** Any `pmf-login` form on a subsequent page must still include exactly
-  one `hidden`-type input with the `pmf-username` class and its `value`
-  attribute set to the username (entered on a previous page).
-
+	**Note:** Any `pmf-login` form on a subsequent page must still include
+	exactly one `hidden`-type input with the `pmf-username` class and its
+	`value` attribute set to the username (entered on a previous page).
+  
 * Login forms which require a one-time code instead of a password.
 
-**Code example:**
+	**Code example:**
 
-	<form action="/login" method="POST" class="pmf-login">
-		<p>
-			Username:
-			<input type="text" name="username" class="pmf-username" />
-		</p>
-		<p>
-			Security code:
-			<input type="password" name="code" />
-		</p>
-		<p>
-			<input type="submit" value="Login" />
-		</p>
-	</form>
+		<form action="/login" method="POST" class="pmf-login">
+			<p>
+				Username:
+				<input type="text" name="username" class="pmf-username" />
+			</p>
+			<p>
+				Security code:
+				<input type="password" name="code" />
+			</p>
+			<p>
+				<input type="submit" value="Login" />
+			</p>
+		</form>
 
 #### Registration forms
 
@@ -301,34 +304,40 @@ the class `pmf-version-1`.
 
 ### Policy encoding
 
-A password policy is encoded as a JSON object with between zero and four
+A password policy is encoded as a [JSON][1] object with any of the following
 members:
 
-* `minLen` - minimum number of characters a password can contain.
-* `maxLen` - maximum number of characters a password can contain.
-* `mayHave` - set of characters a password may contain.
-* `mustHave` - set of sets of characters a password must contain.
+* `minLen` is the minimum number of characters a password can contain.
+* `maxLen` is the maximum number of characters a password can contain.
+* `mayHave` is a list of characters a password may contain.
+* `mustHave` is a list of lists of characters a password must contain.
 
 The values of the `minLen` and `maxLen` members must be non-negative
 integers. The following sets of characters are defined for inclusion in
 `mayHave` and `mustHave` values:
 
-* `"lower"` - the 26 lowercase ASCII characters.
-* `"upper"` - the 26 uppercase ASCII characters.
-* `"digit"` - the 10 ASCII digits.
-* `"symbol"` - the following 11 symbols: `!` `@` `#` `$` `%` `&` `*` `-` `+`
-  `/` `=`
-* `"base64"` - the 64 ASCII characters used in OpenPGP base 64 encoding (RFC
-  4880)
-* `"ascii"` - the 95 printable ASCII characters from 32 (space) to 126 (tilde)
+* `"lower"` expands to a list of the 26 lowercase ASCII characters.
+* `"upper"` expands to a list of the 26 uppercase ASCII characters.
+* `"digit"` expands to a list of the 10 ASCII digits.
+* `"symbol"` expands to:
+  `["!", "@", "#", "$", "%", "&", "*", "-", "+", "/", "="]`
+* `"base64"` expands to a list of the 64 ASCII characters used in OpenPGP base
+  64 encoding (RFC 4880)
+* `"ascii"` expands to a list of the 95 printable ASCII characters from 32
+  (space) to 126 (tilde)
 
-The *Character classes* section below describes how to specify arbitrary other
-sets of characters.
+**Note:** A future version of this document will include a section which
+describes how to specify arbitrary other sets of characters as outlined by
+[Stajano *et al*][2].
 
 **Example:**
 
+*Policy:*
+
 "Password must contain between 8 and 16 characters long, consist of printable
 ascii characters and contain a lower case letter and a digit."
+
+*Code:*
 
 	{
 		minLen: 8,
@@ -339,10 +348,80 @@ ascii characters and contain a lower case letter and a digit."
 
 **Example:**
 
-Policies may omit any of the four members:
+*Policy:*
 
 "Password must be at least 8 characters long."
+
+*Code:*
 
 	{
 		minLen: 8
 	}
+
+### Embedding policies ###
+
+A PMF password policy is embedded within a password form as the `value` of the
+`hidden`-type `input` marked with the `pmf-policy` class.
+
+**Code example:**
+
+	<form action="/register" method="POST" class="pmf-register">
+		<p>
+			Username:
+			<input type="text" name="username" class="pmf-username" />
+		</p>
+		<p>
+			Email address:
+			<input type="email" name="email" />
+		</p>
+		<p>
+			New password:
+			<input type="password" name="new" class="pmf-new-password" />
+		</p>
+		<p>
+			Confirm new password:
+			<input type="password" name="confirm" class="pmf-new-password" />
+		</p>
+		<p>
+			Your new password must contain between 8 and 16 characters long, consist of printable ascii characters and contain a lower case	letter and a digit.
+			<input
+				type="hidden"
+				class="pmf-policy"
+				value='{
+					minLen: 8,
+					maxLen: 16,
+					mayHave: "ascii",
+					mustHave: ["lower", "digit"]
+				}' />
+		</p>
+		<p>
+			<input type="submit" value="Register" />
+		</p>
+	</form>
+
+Any password form should contain a `pmf-policy` hidden input.
+
+### Limitations ###
+
+Useful policy rules which currently cannot be expressed in a PMF policy include
+blacklists of known weak passwords and stateful checks such as "you can't use
+your username or a variation of it". However, such violations are very unlikely
+to occur if the password is generated randomly.
+
+## Bibliography
+
+1. ECMA-404, *The JSON Data Interchange Standard, 1st edition (October 2013)*,
+   [http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf][1].
+2. Stajano, F., Spencer, M., Jenkinson, G.: *Password-manager friendly (PMF):
+Semantic annotations to improve the effectiveness of password managers*,
+Pre-proceedings of Passwords 2014, Springer-Verlag,
+[http://pmfriendly.org/static/documents/2014-StaSpeJen-pmf.pdf][2]
+
+[1]: http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf
+"The JSON Data Interchange Standard"
+[2]: http://pmfriendly.org/static/documents/2014-StaSpeJen-pmf.pdf
+"Password-manager friendly (PMF): Semantic annotations to improve the
+effectiveness of password managers"
+
+[101]: http://passwords14.item.ntnu.no/ "Passwords 2014"
+[102]: http://pmfriendly.org "pmfriendly.org"
