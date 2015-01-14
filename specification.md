@@ -410,7 +410,7 @@ to occur if the password is generated randomly.
 
 ## Bibliography
 
-1. ECMA-404, *The JSON Data Interchange Standard, 1st edition (October 2013)*,
+1. *ECMA-404, The JSON Data Interchange Standard, 1st edition (October 2013)*,
    [http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf][1].
 2. Stajano, F., Spencer, M., Jenkinson, G.: *Password-manager friendly (PMF):
 Semantic annotations to improve the effectiveness of password managers*,
