@@ -1,4 +1,4 @@
-# PMF semantic markup standard
+# PMF semantic markup specification (draft)
 
 ## Introduction
 
@@ -20,7 +20,7 @@ PMF was first presented at [Passwords 2014][101] and has a website at
 
 ## Status of this document
 
-This document is a working draft and all aspects are subject to change.
+This document is a draft and all aspects are subject to change.
 
 ## Glossary
 
