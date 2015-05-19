@@ -272,8 +272,8 @@ document, must have the `pmf-error` class.
 	
 ### Versioning
 
-The `body` element in a HTML document that conform with this specification has
-the class `pmf-version-1`.
+The `body` element in a HTML document that conforms with this specification
+must have the `pmf-version-1` class.
 
 **Code example:**
 
@@ -302,111 +302,14 @@ the class `pmf-version-1`.
 
 ## Password policies
 
-### Policy encoding
+A PMF-compliant website should accept any password longer than the *machine
+password threshold length* and consisting of standard base-64 characters.
 
-A password policy is encoded as a [JSON][1] object with any of the following
-members:
+**The machine password threshold length is 64 characters.**
 
-* `minLen` is the minimum number of characters a password can contain.
-* `maxLen` is the maximum number of characters a password can contain.
-* `mayHave` is a list of characters a password may contain.
-* `mustHave` is a list of lists of characters a password must contain.
-
-The values of the `minLen` and `maxLen` members must be non-negative
-integers. The following sets of characters are defined for inclusion in
-`mayHave` and `mustHave` values:
-
-* `"lower"` expands to a list of the 26 lowercase ASCII characters.
-* `"upper"` expands to a list of the 26 uppercase ASCII characters.
-* `"digit"` expands to a list of the 10 ASCII digits.
-* `"symbol"` expands to:
-  `["!", "@", "#", "$", "%", "&", "*", "-", "+", "/", "="]`
-* `"base64"` expands to a list of the 64 ASCII characters used in OpenPGP base
-  64 encoding (RFC 4880)
-* `"ascii"` expands to a list of the 95 printable ASCII characters from 32
-  (space) to 126 (tilde)
-
-**Note:** A future version of this document will include a section which
-describes how to specify arbitrary other sets of characters as outlined by
-[Stajano *et al*][2].
-
-**Example:**
-
-*Policy:*
-
-"Password must contain between 8 and 16 characters long, consist of printable
-ascii characters and contain a lower case letter and a digit."
-
-*Code:*
-
-	{
-		minLen: 8,
-		maxLen: 16,
-		mayHave: "ascii",
-		mustHave: ["lower", "digit"]
-	}
-
-**Example:**
-
-*Policy:*
-
-"Password must be at least 8 characters long."
-
-*Code:*
-
-	{
-		minLen: 8
-	}
-
-### Embedding policies ###
-
-A PMF password policy is embedded within a password form as the `value` of the
-`hidden`-type `input` marked with the `pmf-policy` class.
-
-**Code example:**
-
-	<form action="/register" method="POST" class="pmf-register">
-		<p>
-			Username:
-			<input type="text" name="username" class="pmf-username" />
-		</p>
-		<p>
-			Email address:
-			<input type="email" name="email" />
-		</p>
-		<p>
-			New password:
-			<input type="password" name="new" class="pmf-new-password" />
-		</p>
-		<p>
-			Confirm new password:
-			<input type="password" name="confirm" class="pmf-new-password" />
-		</p>
-		<p>
-			Your new password must contain between 8 and 16 characters long, consist of printable ascii characters and contain a lower case	letter and a digit.
-			<input
-				type="hidden"
-				class="pmf-policy"
-				value='{
-					minLen: 8,
-					maxLen: 16,
-					mayHave: "ascii",
-					mustHave: ["lower", "digit"]
-				}' />
-		</p>
-		<p>
-			<input type="submit" value="Register" />
-		</p>
-	</form>
-
-Any password form should contain a `pmf-policy` hidden input.
-
-### Limitations ###
-
-Useful policy rules which currently cannot be expressed in a PMF policy include
-blacklists of known weak passwords and stateful checks such as "you can't use
-your username or a variation of it". However, such violations are very unlikely
-to occur if the password is generated randomly.
+Websites may apply any password policy to passwords with lengths below this
+threshold. PMF-enabled password managers should provide a facility to generate
+secure pseudo-random passwords with lengths exceeding this threshold.
 
 ## Bibliography
 
